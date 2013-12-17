@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from polls.models import Poll
+from polls.models import Poll, Choice
 from django.template import RequestContext, loader
 from django.shortcuts import render
 from django.http import Http404
@@ -10,10 +10,6 @@ def index(request):
     context = {'latest_poll_list': latest_poll_list}
     return render(request, 'polls/index.html', context)
 	
-
-#def detail(request, poll_id):
-#    return HttpResponse("You're looking at poll %s." % poll_id)
-	
 def results(request, poll_id):
     return HttpResponse("You're looking at the results of poll %s." % poll_id)
 	
@@ -23,7 +19,7 @@ def vote(request, poll_id):
 def detail(request, poll_id):
     try:
         poll = Poll.objects.get(pk=poll_id)
-    except Poll.DoesNotExist:
+    except poll.DoesNotExist:
         raise Http404
     return render(request, 'polls/detail.html', {'poll': poll})	
 	
