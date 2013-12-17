@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from polls.models import Poll, Choice
 from django.template import RequestContext, loader
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import Http404
 # Create your views here.
 
@@ -17,9 +17,6 @@ def vote(request, poll_id):
     return HttpResponse("You're voting on poll %s." % poll_id)
 
 def detail(request, poll_id):
-    try:
-        poll = Poll.objects.get(pk=poll_id)
-    except poll.DoesNotExist:
-        raise Http404
+    poll = get_object_or_404(Poll, pk=poll_id)
     return render(request, 'polls/detail.html', {'poll': poll})	
 	
